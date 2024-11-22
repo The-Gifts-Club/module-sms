@@ -1,0 +1,26 @@
+# Output
+dist/
+build/
+docs/
+
+# TS cache
+*.tsbuildinfo
+
+# Env
+.env
+.env.*
+
+# Packages
+node_modules/
+.npm
+.npmrc
+
+# Workspace
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Test coverage
+coverage
