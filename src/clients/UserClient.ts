@@ -84,4 +84,23 @@ export default class UserClient {
 
     return response.data
   }
+
+  public async getStats(
+    interval: "custom" | "last_month" | "last_twelve_months"
+  ): Promise<Record<any, any>> {
+    const config: AxiosRequestConfig = {
+      params: interval,
+    };
+
+    const response: AxiosResponse = await this.client.get(
+      "/statistics/cost-resume",
+      config
+    );
+
+    const result = {
+      monthlyResult: response.data.datas,
+      success: response.data.success,
+    };
+    return result;
+  }
 }

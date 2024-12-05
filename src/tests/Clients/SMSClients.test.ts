@@ -5,7 +5,7 @@ import SMSClient from "../../clients/SMSClient";
 const client: SMSClient = new SMSClient();
 
 const configSMS: Record<string, any> = {
-  apiKey: "adc115beea12880b282f70bd18e10613fe4c427d",
+  apiKey: process.env.API_KEY as string,
   phoneNumbers: "+33667639842",
   sender: "TGC",
   message: "Test SMS",
@@ -16,7 +16,7 @@ const configSMS: Record<string, any> = {
 };
 
 const configBatch: Record<string, any> = {
-  apiKey: "adc115beea12880b282f70bd18e10613fe4c427d",
+  apiKey: process.env.API_KEY as string,
   SMSList: [
     {
       phoneNumber: "0667639842",
@@ -31,15 +31,13 @@ const configBatch: Record<string, any> = {
 };
 
 const configCancel: Record<string, any> = {
-  apiKey: "adc115beea12880b282f70bd18e10613fe4c427d",
+  apiKey: process.env.API_KEY as string,
   messageId: "73477295",
 };
 
 test("send a single sms", async () => {
   const result = await client.sendSMS(configSMS);
-  expect(result).toContain({
-    statusCode: 200,
-  });
+  expect(result).toHaveProperty("statusCode", 200);
 });
 
 test("Send a batch sms", async () => {
