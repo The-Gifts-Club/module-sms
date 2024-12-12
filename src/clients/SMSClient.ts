@@ -3,11 +3,13 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export default class SMSClient {
   public client: AxiosInstance;
+  private apiKey: string
 
   constructor() {
     this.client = axios.create({
       baseURL: "https://api.smspartner.fr/v1",
     });
+    this.apiKey = process.env.API_KEY as string
   }
 
   /**
@@ -19,6 +21,7 @@ export default class SMSClient {
   public async sendSMS(
     smsConfig: Record<string, any>
   ): Promise<Record<any, any>> {
+    smsConfig["apiKey"] = this.apiKey
     const config: string = JSON.stringify(smsConfig);
 
     const response: AxiosResponse = await this.client.post("/send", config);
@@ -40,6 +43,7 @@ export default class SMSClient {
   public async sendBatchSMS(
     smsConfig: Record<string, any>
   ): Promise<Record<any, any>> {
+    smsConfig["apiKey"] = this.apiKey
     const config: string = JSON.stringify(smsConfig);
 
     const response: AxiosResponse = await this.client.post(
@@ -62,6 +66,7 @@ export default class SMSClient {
    * @returns {number} - statusCode, 200 if succeeded
    */
   public async cancelSMS(cancelConfig: Record<any, any>): Promise<any> {
+    cancelConfig["apiKey"] = this.apiKey
     const config: AxiosRequestConfig = {
       params: cancelConfig,
     };

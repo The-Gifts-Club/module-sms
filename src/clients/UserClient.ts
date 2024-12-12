@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { StatsResult } from "./types";
 
 export default class UserClient {
   public client: AxiosInstance;
+  private apiKey: string
 
   constructor() {
     this.client = axios.create({
       baseURL: "https://api.smspartner.fr/v1",
     });
+    this.apiKey = process.env.API_KEY as string
   }
 
   public async createSubAccount(
     subAccountConfig: Record<string, any>
   ): Promise<any> {
+    subAccountConfig["apiKey"] = this.apiKey
     const config = JSON.stringify(subAccountConfig);
 
     const response: AxiosResponse = await this.client.post(
@@ -22,9 +26,15 @@ export default class UserClient {
     return response.data;
   }
 
+  /**
+   * 
+   * @param {Record<string, string>} subAccountToken - token du sous-compte
+   * @returns {Promise<any>}
+   */
   public async deleteSubAccount(
     subAccountToken: Record<string, string>
   ): Promise<any> {
+    subAccountToken["apiKey"] = this.apiKey
     const config: AxiosRequestConfig = {
       params: subAccountToken,
     };
@@ -75,6 +85,7 @@ export default class UserClient {
   public async addCredits(
     addCreditConfig: Record <string, string>
   ): Promise <AxiosResponse> {
+    addCreditConfig["apiKey"] = this.apiKey
     const config = JSON.stringify(addCreditConfig)
 
     const response: AxiosResponse = await this.client.post(
@@ -87,7 +98,7 @@ export default class UserClient {
 
   public async getStats(
     interval: "custom" | "last_month" | "last_twelve_months"
-  ): Promise<Record<any, any>> {
+  ): Promise<StatsResult> {
     const config: AxiosRequestConfig = {
       params: interval,
     };

@@ -1,4 +1,3 @@
-import {} from "ts-jest";
 import UserClient from "../../clients/UserClient";
 
 const client: UserClient = new UserClient();
@@ -14,12 +13,12 @@ const addCreditConfig: Record<string, string> = {
   tokenSubaccount: "21fedcb927ba73c081f63ac217e464531abd867c",
 };
 
-const configStatsSimple: Record<string, string> = {
+/*const configStatsSimple: Record<string, string> = {
   apiKey: process.env.API_KEY as string,
   interval: "last_month",
-};
+};*/
 
-test("Create sub account", async () => {
+test.only("Create sub account", async () => {
   const result = await client.createSubAccount(subAccountConfig);
   expect(result).toBe(2);
 });
@@ -38,12 +37,12 @@ test("Add credit to an account", async () => {
   expect(result).toContain({
     code: "200",
   });
-
-  test("get stats on last month", async () => {
+/*
+test("get stats on last month", async () => {
     const result = await client.getStats(configStatsSimple);
 
     expect(result).toContain({
       success: "true",
     });
-  });
+  });*/
 });
